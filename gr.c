@@ -1,8 +1,7 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
-#include <map.h>
-
+#include <stdbool.h>
 #include "sph/extra.h"
 #include "sph/sph_blake.h"
 #include "sph/sph_bmw.h"
@@ -24,7 +23,6 @@
 #include "sph/sph_tiger.h"
 #include "sph/lyra2.h"
 #include "sph/gost_streebog.h"
-#include "hash_selection.h"
 #include "cryptonote/cryptonight_dark.h"
 #include "cryptonote/cryptonight_dark_lite.h"
 #include "cryptonote/cryptonight_fast.h"
@@ -75,14 +73,19 @@ static void getAlgoString(const uint8_t* prevblock, char *output, int algoCount)
 {
 	char *sptr = output;
 	int j;
-	std::map<uint8_t, bool> selectedAlgo;
+	bool selectedAlgo[algoCount];
+    for(int z=0; z < algoCount; z++) {
+       selectedAlgo[z] = false;
+    }
+    int selectedCount = 0;
 	for (j = 0; j < 64; j++) {
 		char b = (63 - j) >> 1; // 64 ascii hex chars, reversed
 		uint8_t algoDigit = ((j & 1) ? prevblock[b] & 0xF : prevblock[b] >> 4) % algoCount;
 		if(!selectedAlgo[algoDigit]) {
 			selectedAlgo[algoDigit] = true;
+			selectedCount++;
 		}
-		if(selectedAlgo.size() == algoCount) {
+		if(selectedCount == algoCount) {
 			break;
 		}
 		if (algoDigit >= 10)
@@ -138,8 +141,8 @@ void gr_hash(const char* input, char* output) {
         int i;
         for (i = 0; i < 18; i++)
         {
-        	const uint8_t algo;
-        	const uint8_t cnAlgo
+        	uint8_t algo;
+        	uint8_t cnAlgo;
         	int coreSelection;
 			int cnSelection = -1;
 			if(i < 5) {
@@ -176,46 +179,46 @@ void gr_hash(const char* input, char* output) {
 			switch(cnAlgo)
 			{
 			 case CNDark:
-				cryptonightdark_hash(reinterpret_cast<const char*>(in), reinterpret_cast<char*>(hash), size, 1);
+				cryptonightdark_hash(in, hash, size, 1);
 				break;
 			 case CNDarkf:
-				cryptonightdark_fast_hash(reinterpret_cast<const char*>(in), reinterpret_cast<char*>(hash), size);
+				cryptonightdark_fast_hash(in, hash, size);
 				break;
 			 case CNDarklite:
-				cryptonightdarklite_hash(reinterpret_cast<const char*>(in), reinterpret_cast<char*>(hash), size, 1);
+				cryptonightdarklite_hash(in, hash, size, 1);
 				break;
 			 case CNDarklitef:
-				cryptonightdarklite_fast_hash(reinterpret_cast<const char*>(in), reinterpret_cast<char*>(hash), size);
+				cryptonightdarklite_fast_hash(in, hash, size);
 				break;
 			 case CNFast:
-				cryptonightfast_hash(reinterpret_cast<const char*>(in), reinterpret_cast<char*>(hash), size, 1);
+				cryptonightfast_hash(in, hash, size, 1);
 				break;
 			 case CNFastf:
-				cryptonightfast_fast_hash(reinterpret_cast<const char*>(in), reinterpret_cast<char*>(hash), size);
+				cryptonightfast_fast_hash(in, hash, size);
 				break;
 			 case CNF:
-				cryptonight_fast_hash(reinterpret_cast<const char*>(in), reinterpret_cast<char*>(hash), size);
+				cryptonight_fast_hash(in, hash, size);
 				break;
 			 case CNLite:
-				cryptonightlite_hash(reinterpret_cast<const char*>(in), reinterpret_cast<char*>(hash), size, 1);
+				cryptonightlite_hash(in, hash, size, 1);
 				break;
 			 case CNLitef:
-				cryptonightlite_fast_hash(reinterpret_cast<const char*>(in), reinterpret_cast<char*>(hash), size);
+				cryptonightlite_fast_hash(in, hash, size);
 				break;
 			 case CNSoftshellf:
-				cryptonight_soft_shell_fast_hash(reinterpret_cast<const char*>(in), reinterpret_cast<char*>(hash), size);
+				cryptonight_soft_shell_fast_hash(in, hash, size);
 				break;
 			 case CNTurtle:
-				cryptonightturtle_hash(reinterpret_cast<const char*>(in), reinterpret_cast<char*>(hash), size, 1);
+				cryptonightturtle_hash(in, hash, size, 1);
 				break;
 			 case CNTurtlef:
-				cryptonightturtle_fast_hash(reinterpret_cast<const char*>(in), reinterpret_cast<char*>(hash), size);
+				cryptonightturtle_fast_hash(in, hash, size);
 				break;
 			 case CNTurtlelite:
-				cryptonightturtlelite_hash(reinterpret_cast<const char*>(in), reinterpret_cast<char*>(hash), size, 1);
+				cryptonightturtlelite_hash(in, hash, size, 1);
 				break;
 			 case CNTurtlelitef:
-				cryptonightturtlelite_fast_hash(reinterpret_cast<const char*>(in), reinterpret_cast<char*>(hash), size);
+				cryptonightturtlelite_fast_hash(in, hash, size);
 				break;
 			}
 			//selection core algo

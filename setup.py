@@ -42,14 +42,9 @@ gr_hash_module = Extension('gr_hash',
                                           'cryptonote/crypto/c_keccak.c',
                                           'cryptonote/crypto/hash.c',
                                           'cryptonote/crypto/oaes_lib.c',
-                                          'cryptonote/crypto/wild_keccak.cpp',
-                                          'cryptonote/crypto/cryotonote_core/account.cpp',
-                                          'cryptonote/crypto/cryotonote_core/cryptonote_basic_impl.cpp',
-                                          'cryptonote/crypto/cryotonote_core/cryptonote_format_utils.cpp'],
+                                          'cryptonote/crypto/wild_keccak.cpp'],
                             include_dirs=['.', './sph', './cryptonote', 
-                                          './cryptonote/crypto', 
-                                          './cryptonote/crypto/cryptonote_core',
-                                          './cryptonote/crypto/cryptonote_protocol'])
+                                          './cryptonote/crypto'])
 
 setup (name = 'gr_hash',
        version = '1.0',
