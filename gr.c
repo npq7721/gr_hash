@@ -94,7 +94,7 @@ static void getAlgoString(const uint8_t* prevblock, char *output, int algoCount)
 			sprintf(sptr, "%u", (uint32_t) algoDigit);
 		sptr++;
 	}
-	if(selectedAlgo.size() < algoCount) {
+	if(selectedCount < algoCount) {
 		for(uint8_t i = 0; i < algoCount; i++) {
 			if(!selectedAlgo[i]) {
 				if (i >= 10)
