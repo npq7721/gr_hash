@@ -1,8 +1,8 @@
 from distutils.core import setup, Extension
 
 gr_hash_module = Extension('gr_hash',
-                               sources = ['x21s_module.c',
-                                          'x21s.c',
+                               sources = ['gr_module.c',
+                                          'gr.c',
                                           'sph/extra.c',
                                           'sph/blake.c',
                                           'sph/echo.c', 

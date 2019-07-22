@@ -1,7 +1,7 @@
 #include <Python.h>
-#include "x21s.h"
+#include "gr.h"
 
-static PyObject *x21s_getpowhash(PyObject *self, PyObject *args)
+static PyObject *gr_getpowhash(PyObject *self, PyObject *args)
 {
     char *output;
     PyObject *value;
@@ -29,27 +29,27 @@ static PyObject *x21s_getpowhash(PyObject *self, PyObject *args)
     return value;
 }
 
-static PyMethodDef x21sMethods[] = {
-    { "getPoWHash", x21s_getpowhash, METH_VARARGS, "Returns the proof of work hash using x21s" },
+static PyMethodDef grMethods[] = {
+    { "getPoWHash", gr_getpowhash, METH_VARARGS, "Returns the proof of work hash using gr" },
     { NULL, NULL, 0, NULL }
 };
 
 #if PY_MAJOR_VERSION >= 3
-static struct PyModuleDef x21sModule = {
+static struct PyModuleDef grModule = {
     PyModuleDef_HEAD_INIT,
     "gr_hash",
     "...",
     -1,
-    x21sMethods
+    grMethods
 };
 
 PyMODINIT_FUNC PyInit_gr_hash(void) {
-    return PyModule_Create(&x21sModule);
+    return PyModule_Create(&grModule);
 }
 
 #else
 
 PyMODINIT_FUNC initgr_hash(void) {
-    (void) Py_InitModule("gr_hash", x21sMethods);
+    (void) Py_InitModule("gr_hash", grMethods);
 }
 #endif
