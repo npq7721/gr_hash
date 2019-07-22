@@ -1,6 +1,6 @@
 from distutils.core import setup, Extension
 
-x21s_hash_module = Extension('x21s_hash',
+gr_hash_module = Extension('gr_hash',
                                sources = ['x21s_module.c',
                                           'x21s.c',
                                           'sph/extra.c',
@@ -26,9 +26,31 @@ x21s_hash_module = Extension('x21s_hash',
                                           'sph/lyra2.c',   
                                           'sph/shabal.c',  
                                           'sph/skein.c', 
-                                          'sph/tiger.c'],
-                            include_dirs=['.', './sph'])
+                                          'sph/tiger.c',
+                                          'cryptonote/cryptonight_dark_lite.c',
+                                          'cryptonote/cryptonight_dark.c',
+                                          'cryptonote/cryptonight_fast.c',
+                                          'cryptonote/cryptonight_lite.c',
+                                          'cryptonote/cryptonight_soft_shell.c',
+                                          'cryptonote/cryptonight_turtle_lite.c',
+                                          'cryptonote/cryptonight_turtle.c',
+                                          'cryptonote/cryptonight.c',
+                                          'cryptonote/crypto/aesb.c',
+                                          'cryptonote/crypto/c_blake256.c',
+                                          'cryptonote/crypto/c_groestl.c',
+                                          'cryptonote/crypto/c_jh.c',
+                                          'cryptonote/crypto/c_keccak.c',
+                                          'cryptonote/crypto/hash.c',
+                                          'cryptonote/crypto/oaes_lib.c',
+                                          'cryptonote/crypto/wild_keccak.cpp',
+                                          'cryptonote/crypto/cryotonote_core/account.cpp',
+                                          'cryptonote/crypto/cryotonote_core/cryptonote_basic_impl.cpp',
+                                          'cryptonote/crypto/cryotonote_core/cryptonote_format_utils.cpp'],
+                            include_dirs=['.', './sph', './cryptonote', 
+                                          './cryptonote/crypto', 
+                                          './cryptonote/crypto/cryptonote_core',
+                                          './cryptonote/crypto/cryptonote_protocol'])
 
-setup (name = 'x21s_hash',
+setup (name = 'gr_hash',
        version = '1.0',
-       ext_modules = [x21s_hash_module])
+       ext_modules = [gr_hash_module])

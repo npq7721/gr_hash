@@ -1,5 +1,5 @@
 #barrystyle 05112018
-import x21s_hash, os, sys, time, binascii
+import gr_hash, os, sys, time, binascii
 
 #result should be:
 #block 0000e25882f725cfa68fc8c7ca244ca14df10241cb50a4b2e6c4b01580878ea4
@@ -22,7 +22,7 @@ nonce = 0
 while True:
   
   complete_header = str(header) + str(gennonce(nonce))
-  hashbin = x21s_hash.getPoWHash(binascii.unhexlify(complete_header))[::-1]
+  hashbin = gr_hash.getPoWHash(binascii.unhexlify(complete_header))[::-1]
 
   if hashbin < targetbin:
      print 'block ' + str(binascii.hexlify(hashbin))

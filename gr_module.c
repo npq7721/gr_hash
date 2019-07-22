@@ -15,9 +15,9 @@ static PyObject *x21s_getpowhash(PyObject *self, PyObject *args)
     Py_INCREF(input);
     output = PyMem_Malloc(32);
 #if PY_MAJOR_VERSION >= 3
-    x21s_hash((char *)PyBytes_AsString((PyObject*) input), output);
+    gr_hash((char *)PyBytes_AsString((PyObject*) input), output);
 #else
-    x21s_hash((char *)PyString_AsString((PyObject*) input), output);
+    gr_hash((char *)PyString_AsString((PyObject*) input), output);
 #endif
     Py_DECREF(input);
 #if PY_MAJOR_VERSION >= 3
@@ -37,19 +37,19 @@ static PyMethodDef x21sMethods[] = {
 #if PY_MAJOR_VERSION >= 3
 static struct PyModuleDef x21sModule = {
     PyModuleDef_HEAD_INIT,
-    "x21s_hash",
+    "gr_hash",
     "...",
     -1,
     x21sMethods
 };
 
-PyMODINIT_FUNC PyInit_x21s_hash(void) {
+PyMODINIT_FUNC PyInit_gr_hash(void) {
     return PyModule_Create(&x21sModule);
 }
 
 #else
 
-PyMODINIT_FUNC initx21s_hash(void) {
-    (void) Py_InitModule("x21s_hash", x21sMethods);
+PyMODINIT_FUNC initgr_hash(void) {
+    (void) Py_InitModule("gr_hash", x21sMethods);
 }
 #endif
