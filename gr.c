@@ -110,8 +110,8 @@ static void getAlgoString(const uint8_t* prevblock, char *output, int algoCount)
 
 void gr_hash(const char* input, char* output) {
         uint32_t hash[64/4];
-        char hashOrder[16] = { 0 };
-        char cnHashOrder[15] = { 0 };
+        char hashOrder[16] = { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+        char cnHashOrder[15] = { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 };
 
         sph_blake512_context ctx_blake;
         sph_bmw512_context ctx_bmw;
