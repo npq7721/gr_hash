@@ -85,7 +85,7 @@ static void getAlgoString(const uint8_t* prevblock, char *output, int algoCount)
 			selectedAlgo[algoDigit] = true;
 			selectedCount++;
 		} else {
-			continue++;
+			continue;
 		}
 		if(selectedCount == algoCount) {
 			break;
