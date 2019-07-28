@@ -53,19 +53,11 @@ enum Algo {
 
 enum CNAlgo {
 	CNDark = 0,
-	CNDarkf,
 	CNDarklite,
-	CNDarklitef,
 	CNFast,
-	CNFastf,
-	CNF,
 	CNLite,
-	CNLitef,
-	CNSoftshellf,
 	CNTurtle,
-	CNTurtlef,
 	CNTurtlelite,
-	CNTurtlelitef,
 	CN_HASH_FUNC_COUNT
 };
 
@@ -113,7 +105,7 @@ static void getAlgoString(const uint8_t* prevblock, char *output, int algoCount)
 void gr_hash(const char* input, char* output) {
 	uint32_t hash[64/4];
 	char hashOrder[16] = { 0};
-	char cnHashOrder[15] = { 0};
+	char cnHashOrder[7] = { 0};
 
 	sph_blake512_context ctx_blake;
 	sph_bmw512_context ctx_bmw;
@@ -139,7 +131,7 @@ void gr_hash(const char* input, char* output) {
 	int size = 80;
 
 	getAlgoString(&input[4], hashOrder, 15);
-	getAlgoString(&input[4], cnHashOrder, 14);
+	getAlgoString(&input[4], cnHashOrder, 6);
 	int i;
 	for (i = 0; i < 18; i++)
 	{
@@ -184,44 +176,20 @@ void gr_hash(const char* input, char* output) {
 		 case CNDark:
 			cryptonightdark_hash(in, hash, size, 1);
 			break;
-		 case CNDarkf:
-			cryptonightdark_fast_hash(in, hash, size);
-			break;
 		 case CNDarklite:
 			cryptonightdarklite_hash(in, hash, size, 1);
-			break;
-		 case CNDarklitef:
-			cryptonightdarklite_fast_hash(in, hash, size);
 			break;
 		 case CNFast:
 			cryptonightfast_hash(in, hash, size, 1);
 			break;
-		 case CNFastf:
-			cryptonightfast_fast_hash(in, hash, size);
-			break;
-		 case CNF:
-			cryptonight_fast_hash(in, hash, size);
-			break;
 		 case CNLite:
 			cryptonightlite_hash(in, hash, size, 1);
-			break;
-		 case CNLitef:
-			cryptonightlite_fast_hash(in, hash, size);
-			break;
-		 case CNSoftshellf:
-			cryptonight_soft_shell_fast_hash(in, hash, size);
 			break;
 		 case CNTurtle:
 			cryptonightturtle_hash(in, hash, size, 1);
 			break;
-		 case CNTurtlef:
-			cryptonightturtle_fast_hash(in, hash, size);
-			break;
 		 case CNTurtlelite:
 			cryptonightturtlelite_hash(in, hash, size, 1);
-			break;
-		 case CNTurtlelitef:
-			cryptonightturtlelite_fast_hash(in, hash, size);
 			break;
 		}
 		//selection core algo
