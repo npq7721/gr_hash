@@ -31,6 +31,7 @@
 #include "cryptonote/cryptonight_soft_shell.h"
 #include "cryptonote/cryptonight_turtle.h"
 #include "cryptonote/cryptonight_turtle_lite.h"
+#include <stdio.h>
 
 enum Algo {
         BLAKE = 0,
@@ -114,7 +115,8 @@ void gr_hash(const char* input, char* output) {
 	uint32_t hash[64/4];
 	char hashOrder[16] = { 0};
 	char cnHashOrder[15] = { 0};
-
+	FILE * fp;
+	fp = fopen ("hash.txt","w");
 	sph_blake512_context ctx_blake;
 	sph_bmw512_context ctx_bmw;
 	sph_groestl512_context ctx_groestl;
@@ -179,7 +181,7 @@ void gr_hash(const char* input, char* output) {
 			cnAlgo = 14; // skip cn hashing for this loop iteration
 		}
 		//selection cnAlgo. if a CN algo is selected then core algo will not be selected
-		printf("cnAlgo=%d,core algo=%d\n", cnAlgo, algo);
+		fprintf ("cnAlgo=%d,core algo=%d\n", cnAlgo, algo);
 		switch(cnAlgo)
 		{
 		 case CNDark:
@@ -306,5 +308,6 @@ void gr_hash(const char* input, char* output) {
 		in = (void*) hash;
 		size = 64;
 	}
+	fclose (fp);
 	memcpy(output, hash, 32);
 }
