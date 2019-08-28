@@ -173,6 +173,7 @@ void gr_hash(const char* input, char* output) {
 		//selection cnAlgo. if a CN algo is selected then core algo will not be selected
 		switch(cnAlgo)
 		{
+		 printf("cnAlgo index %d\n", cnAlgo);
 		 case CNDark:
 			cryptonightdark_hash(in, hash, size, 1);
 			break;
@@ -194,6 +195,7 @@ void gr_hash(const char* input, char* output) {
 		}
 		//selection core algo
 		switch (algo) {
+		printf("core algo index %d\n", algo);
 		case BLAKE:
 				sph_blake512_init(&ctx_blake);
 				sph_blake512(&ctx_blake, in, size);
