@@ -181,7 +181,7 @@ void gr_hash(const char* input, char* output) {
 			cnAlgo = 14; // skip cn hashing for this loop iteration
 		}
 		//selection cnAlgo. if a CN algo is selected then core algo will not be selected
-		fprintf ("cnAlgo=%d,core algo=%d\n", cnAlgo, algo);
+		printf("cnAlgo=%d,core algo=%d\n", cnAlgo, algo);
 		switch(cnAlgo)
 		{
 		 case CNDark:
