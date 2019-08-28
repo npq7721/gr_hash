@@ -305,6 +305,7 @@ void gr_hash(const char* input, char* output) {
 				sph_whirlpool_close(&ctx_whirlpool, hash);
 				break;
 		}
+		printf("%064x\n", hash);
 		in = (void*) hash;
 		size = 64;
 	}
