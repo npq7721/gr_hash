@@ -112,7 +112,7 @@ static void getAlgoString(const uint8_t* prevblock, char *output, int algoCount)
 			}
 		}
 	}
-	printf("\n")
+	printf("\n");
 	*sptr = '\0';
 }
 
