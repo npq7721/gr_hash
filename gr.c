@@ -116,20 +116,50 @@ static void getAlgoString(const uint8_t* prevblock, char *output, int algoCount)
 	*sptr = '\0';
 }
 
-void to_hex(void *mem, char* output, unsigned int size) {
+void selectAlgo(unsigned char nibble, bool* selectedAlgos, uint8_t* selectedIndex, int algoCount, int* currentCount) {
+	uint8_t algoDigit = (nibble & 0x0F) % algoCount;
+	if(!selectedAlgos[algoDigit]) {
+		selectedAlgos[algoDigit] = true;
+		currentCount[0] = currentCount[0] + 1;
+	}
+	algoDigit = (nibble >> 4) % algoCount;
+	if(!selectedAlgos[algoDigit]) {
+		selectedAlgos[algoDigit] = true;
+		currentCount[0] = currentCount[0] + 1;
+	}
+}
+
+void to_hex(void *mem, char* output, unsigned int size, uint8_t* selectedAlgoOutput, int algoCount) {
   int i;
   unsigned char *p = (unsigned char *)mem;
   unsigned int len = size/2;
   printf("hex=");
   unsigned char j = 0;
+  bool selectedAlgo[algoCount];
+  for(int z=0; z < algoCount; z++) {
+	  selectedAlgo[z] = false;
+  }
+  int selectedCount = 0;
   for (i=0;i<len; i++) {
+	  selectAlgo(p[i], selectedAlgo, selectedAlgoOutput, algoCount, &selectedCount);
 	  printf("%d-", p[i] & 0x0F);
 	  printf("%d-", (p[i] >> 4));
 	  sprintf(output, "%02x", p[i]);
+	  output +=2;
+	  if(selectedCount == algoCount) {
+		  break;
+	  }
 	  //printf("%c", output[j+1]);
 	 /// printf("%c", output[j]);
 	 // j += 2;
-	  output +=2;
+
+  }
+  if(selectedCount < algoCount) {
+	for(uint8_t i = 0; i < algoCount; i++) {
+		if(!selectedAlgo[i]) {
+			selectedAlgoOutput[i] = i;
+		}
+	}
   }
   *output = '\0';
   output -= size;
@@ -187,7 +217,9 @@ void gr_hash(const char* input, char* output) {
 
 	void *in = (void*) input;
 	int size = 80;
-	to_hex(&input[4], test, 64);
+	uint8_t selectedAlgoOutput[15] = {0};
+	to_hex(&input[4], test, 64, uint8_t* selectedAlgoOutput, 15);
+	//to_hex(&input[4], test, 64);
 	printf("previous hash=");
 	print_hex_memory(&input[4], 64);
 	getAlgoString(&input[4], hashOrder, 15);
@@ -219,8 +251,9 @@ void gr_hash(const char* input, char* output) {
 			cnSelection = 2;
 		}
 		if(coreSelection >= 0) {
-			const char elem = hashOrder[coreSelection];
-			algo = elem >= 'A' ? elem - 'A' + 10 : elem - '0';
+			algo = selectedAlgoOutput[(uint8_t)coreSelection]
+//			const char elem = hashOrder[coreSelection];
+//			algo = elem >= 'A' ? elem - 'A' + 10 : elem - '0';
 		} else {
 			algo = 16; // skip core hashing for this loop iteration
 		}
