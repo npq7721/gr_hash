@@ -278,7 +278,6 @@ void gr_hash(const char* input, char* output) {
 				sph_skein512_close(&ctx_skein, hash);
 				break;
 		case LUFFA:
-				print_hex_memory(in, size);
 				sph_luffa512_init(&ctx_luffa);
 				sph_luffa512(&ctx_luffa, in, size);
 				sph_luffa512_close(&ctx_luffa, hash);
