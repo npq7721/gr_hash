@@ -111,6 +111,17 @@ static void getAlgoString(const uint8_t* prevblock, char *output, int algoCount)
 	*sptr = '\0';
 }
 
+void print_hex_memory(void *mem) {
+  int i;
+  unsigned char *p = (unsigned char *)mem;
+  for (i=0;i<128;i++) {
+    printf("0x%02x ", p[i]);
+    if ((i%16==0) && i)
+      printf("\n");
+  }
+  printf("\n");
+}
+
 void gr_hash(const char* input, char* output) {
 	uint32_t hash[64/4];
 	char hashOrder[16] = { 0};
@@ -305,7 +316,7 @@ void gr_hash(const char* input, char* output) {
 				sph_whirlpool_close(&ctx_whirlpool, hash);
 				break;
 		}
-		printf("%064x\n", hash);
+		print_hex_memory(hash);
 		in = (void*) hash;
 		size = 64;
 	}
