@@ -122,11 +122,11 @@ void to_hex(void *mem, char* output, unsigned int size) {
   unsigned int len = size/2;
   for (i=0;i<len; i++) {
 	  sprintf(output, "%02x", p[(len - i - 1)]);
-	  output++;
-	  output++;
+	  output +=2;
   }
   *output = '\0';
-  printf("hex=%064x\n",output);
+  output -= size;
+  printf("hex=%s\n",output);
 }
 
 void print_hex_memory(void *mem, unsigned int size) {
