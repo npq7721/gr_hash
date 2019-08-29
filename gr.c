@@ -121,10 +121,13 @@ void to_hex(void *mem, char* output, unsigned int size) {
   unsigned char *p = (unsigned char *)mem;
   unsigned int len = size/2;
   printf("hex=");
+  unsigned char j = 0;
   for (i=0;i<len; i++) {
+	  printf("%d-", p[i]);
 	  sprintf(output, "%02x", p[i]);
-	  printf("%c", output[i+1]);
-	  printf("%c", output[i]);
+	  //printf("%c", output[j+1]);
+	 /// printf("%c", output[j]);
+	 // j += 2;
 	  output +=2;
   }
   *output = '\0';
