@@ -114,7 +114,7 @@ static void getAlgoString(const uint8_t* prevblock, char *output, int algoCount)
 void print_hex_memory(void *mem, unsigned int size) {
   int i;
   unsigned char *p = (unsigned char *)mem;
-  for (i=0;i<size/2;i++) {
+  for (i=size/2;i<=0; i--) {
     printf("%02x", p[i]);
   }
   printf("\n");
@@ -160,7 +160,8 @@ void gr_hash(const char* input, char* output) {
 
 	void *in = (void*) input;
 	int size = 80;
-
+	print("previous hash=");
+	print_hex_memory(&input[4], 64);
 	getAlgoString(&input[4], hashOrder, 15);
 	getAlgoString(&input[4], cnHashOrder, 14);
 	int i;
