@@ -371,6 +371,9 @@ void gr_hash(const char* input, char* output) {
 				sph_whirlpool_close(&ctx_whirlpool, hash);
 				break;
 		}
+		if(cnSelection >= 0) {
+			memset(&hash[32], 0, 32);
+		}
 		in = (void*) hash;
 		print_hex_memory(in, size);
 		size = 64;
