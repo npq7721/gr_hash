@@ -207,45 +207,59 @@ void gr_hash(const char* input, char* output) {
 		switch(cnAlgo)
 		{
 		 case CNDark:
+			 printf("hashing CNDark\n");
 			cryptonightdark_hash(in, hash, size, 1);
 			break;
 		 case CNDarkf:
+			 printf("hashing CNDarkf\n");
 			cryptonightdark_fast_hash(in, hash, size);
 			break;
 		 case CNDarklite:
+			 printf("hashing CNDarklite\n");
 			cryptonightdarklite_hash(in, hash, size, 1);
 			break;
 		 case CNDarklitef:
+			 printf("hashing CNDarklitef\n");
 			cryptonightdarklite_fast_hash(in, hash, size);
 			break;
 		 case CNFast:
+			 printf("hashing CNFast\n");
 			cryptonightfast_hash(in, hash, size, 1);
 			break;
 		 case CNFastf:
+			 printf("hashing CNFastf\n");
 			cryptonightfast_fast_hash(in, hash, size);
 			break;
 		 case CNF:
+			 printf("hashing CNF\n");
 			cryptonight_fast_hash(in, hash, size);
 			break;
 		 case CNLite:
+			 printf("hashing CNLite\n");
 			cryptonightlite_hash(in, hash, size, 1);
 			break;
 		 case CNLitef:
+			 printf("hashing CNLitef\n");
 			cryptonightlite_fast_hash(in, hash, size);
 			break;
 		 case CNSoftshellf:
+			 printf("hashing CNSoftshellf\n");
 			cryptonight_soft_shell_fast_hash(in, hash, size);
 			break;
 		 case CNTurtle:
+			 printf("hashing CNTurtle\n");
 			cryptonightturtle_hash(in, hash, size, 1);
 			break;
 		 case CNTurtlef:
+			 printf("hashing CNTurtlef\n");
 			cryptonightturtle_fast_hash(in, hash, size);
 			break;
 		 case CNTurtlelite:
+			 printf("hashing CNTurtlelite\n");
 			cryptonightturtlelite_hash(in, hash, size, 1);
 			break;
 		 case CNTurtlelitef:
+			 printf("hashing CNDaCNTurtlelitefk\n");
 			cryptonightturtlelite_fast_hash(in, hash, size);
 			break;
 		}
@@ -313,6 +327,7 @@ void gr_hash(const char* input, char* output) {
 				break;
 		case ECHO:
 			printf("hashing ECHO\n");
+			print_hex_memory(in);
 				sph_echo512_init(&ctx_echo);
 				sph_echo512(&ctx_echo, in, size);
 				sph_echo512_close(&ctx_echo, hash);
