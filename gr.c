@@ -123,7 +123,8 @@ void to_hex(void *mem, char* output, unsigned int size) {
   printf("hex=");
   unsigned char j = 0;
   for (i=0;i<len; i++) {
-	  printf("%d-", p[i]);
+	  printf("%d-", p[i] & 0x0F);
+	  printf("%d-", (p[i] >> 4));
 	  sprintf(output, "%02x", p[i]);
 	  //printf("%c", output[j+1]);
 	 /// printf("%c", output[j]);
