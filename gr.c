@@ -111,10 +111,10 @@ static void getAlgoString(const uint8_t* prevblock, char *output, int algoCount)
 	*sptr = '\0';
 }
 
-void print_hex_memory(void *mem) {
+void print_hex_memory(void *mem, unsigned int size) {
   int i;
   unsigned char *p = (unsigned char *)mem;
-  for (i=0;i<32;i++) {
+  for (i=0;i<size;i++) {
     printf("%02x", p[i]);
   }
   printf("\n");
@@ -267,112 +267,112 @@ void gr_hash(const char* input, char* output) {
 		switch (algo) {
 		case BLAKE:
 				printf("hashing Blake\n");
-				print_hex_memory(in);
+				print_hex_memory(in, size);
 				sph_blake512_init(&ctx_blake);
 				sph_blake512(&ctx_blake, in, size);
 				sph_blake512_close(&ctx_blake, hash);
 				break;
 		case BMW:
 				printf("hashing BMW\n");
-				print_hex_memory(in);
+				print_hex_memory(in, size);
 				sph_bmw512_init(&ctx_bmw);
 				sph_bmw512(&ctx_bmw, in, size);
 				sph_bmw512_close(&ctx_bmw, hash);
 				break;
 		case GROESTL:
 				printf("hashing GROESTL\n");
-				print_hex_memory(in);
+				print_hex_memory(in, size);
 				sph_groestl512_init(&ctx_groestl);
 				sph_groestl512(&ctx_groestl, in, size);
 				sph_groestl512_close(&ctx_groestl, hash);
 				break;
 		case JH:
 				printf("hashing JH\n");
-				print_hex_memory(in);
+				print_hex_memory(in, size);
 				sph_jh512_init(&ctx_jh);
 				sph_jh512(&ctx_jh, in, size);
 				sph_jh512_close(&ctx_jh, hash);
 				break;
 		case KECCAK:
 				printf("hashing KECCAK\n");
-				print_hex_memory(in);
+				print_hex_memory(in, size);
 				sph_keccak512_init(&ctx_keccak);
 				sph_keccak512(&ctx_keccak, in, size);
 				sph_keccak512_close(&ctx_keccak, hash);
 				break;
 		case SKEIN:
 				printf("hashing SKEIN\n");
-				print_hex_memory(in);
+				print_hex_memory(in, size);
 				sph_skein512_init(&ctx_skein);
 				sph_skein512(&ctx_skein, in, size);
 				sph_skein512_close(&ctx_skein, hash);
 				break;
 		case LUFFA:
 				printf("hashing LUFFA\n");
-				print_hex_memory(in);
+				print_hex_memory(in, size);
 				sph_luffa512_init(&ctx_luffa);
 				sph_luffa512(&ctx_luffa, in, size);
 				sph_luffa512_close(&ctx_luffa, hash);
 				break;
 		case CUBEHASH:
 				printf("hashing CUBEHASH\n");
-				print_hex_memory(in);
+				print_hex_memory(in, size);
 				sph_cubehash512_init(&ctx_cubehash);
 				sph_cubehash512(&ctx_cubehash, in, size);
 				sph_cubehash512_close(&ctx_cubehash, hash);
 				break;
 		case SHAVITE:
 			printf("hashing SHAVITE\n");
-			print_hex_memory(in);
+			print_hex_memory(in, size);
 				sph_shavite512_init(&ctx_shavite);
 				sph_shavite512(&ctx_shavite, in, size);
 				sph_shavite512_close(&ctx_shavite, hash);
 				break;
 		case SIMD:
 			printf("hashing SIMD\n");
-			print_hex_memory(in);
+			print_hex_memory(in, size);
 				sph_simd512_init(&ctx_simd);
 				sph_simd512(&ctx_simd, in, size);
 				sph_simd512_close(&ctx_simd, hash);
 				break;
 		case ECHO:
 			printf("hashing ECHO\n");
-			print_hex_memory(in);
+			print_hex_memory(in, size);
 				sph_echo512_init(&ctx_echo);
 				sph_echo512(&ctx_echo, in, size);
 				sph_echo512_close(&ctx_echo, hash);
 				break;
 		case HAMSI:
 			printf("hashing HAMSI\n");
-			print_hex_memory(in);
+			print_hex_memory(in, size);
 				sph_hamsi512_init(&ctx_hamsi);
 				sph_hamsi512(&ctx_hamsi, in, size);
 				sph_hamsi512_close(&ctx_hamsi, hash);
 				break;
 		case FUGUE:
 			printf("hashing FUGUE\n");
-			print_hex_memory(in);
+			print_hex_memory(in, size);
 				sph_fugue512_init(&ctx_fugue);
 				sph_fugue512(&ctx_fugue, in, size);
 				sph_fugue512_close(&ctx_fugue, hash);
 				break;
 		case SHABAL:
 			printf("hashing SHABAL\n");
-			print_hex_memory(in);
+			print_hex_memory(in, size);
 				sph_shabal512_init(&ctx_shabal);
 				sph_shabal512(&ctx_shabal, in, size);
 				sph_shabal512_close(&ctx_shabal, hash);
 				break;
 		case WHIRLPOOL:
 			printf("hashing WHIRLPOOL\n");
-			print_hex_memory(in);
+			print_hex_memory(in, size);
 				sph_whirlpool_init(&ctx_whirlpool);
 				sph_whirlpool(&ctx_whirlpool, in, size);
 				sph_whirlpool_close(&ctx_whirlpool, hash);
 				break;
 		}
 		in = (void*) hash;
-		print_hex_memory(in);
+		print_hex_memory(in, size);
 		size = 64;
 	}
 	fclose (fp);
