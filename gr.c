@@ -115,7 +115,7 @@ void print_hex_memory(void *mem) {
   int i;
   unsigned char *p = (unsigned char *)mem;
   for (i=0;i<64;i++) {
-    printf("%02x ", p[i]);
+    printf("%02x", p[i]);
   }
   printf("\n");
 }
