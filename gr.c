@@ -81,7 +81,7 @@ static void getAlgoString(const uint8_t* prevblock, char *output, int algoCount)
 	int selectedCount = 0;
 	printf("picking=");
 	for (j = 0; j < 64; j++) {
-		char b = j >> 1; // 64 ascii hex chars, reversed
+		char b = j; // 64 ascii hex chars, reversed
 		uint8_t algoDigit = (j & 1) ? prevblock[b] & 0xF : prevblock[b] >> 4;
 		printf("%d,", algoDigit);
 		algoDigit = algoDigit % algoCount;
@@ -122,7 +122,8 @@ void to_hex(void *mem, char* output, unsigned int size) {
   unsigned int len = size/2;
   for (i=0;i<len; i++) {
 	  sprintf(output, "%02x", p[(len - i - 1)]);
-	  output += 2;
+	  output++;
+	  output++;
   }
   *output = '\0';
   printf("hex=%064x\n",output);
