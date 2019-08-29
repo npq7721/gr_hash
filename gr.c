@@ -160,7 +160,7 @@ void gr_hash(const char* input, char* output) {
 
 	void *in = (void*) input;
 	int size = 80;
-	print("previous hash=");
+	printf("previous hash=");
 	print_hex_memory(&input[4], 64);
 	getAlgoString(&input[4], hashOrder, 15);
 	getAlgoString(&input[4], cnHashOrder, 14);
