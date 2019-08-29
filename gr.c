@@ -120,12 +120,15 @@ void selectAlgo(unsigned char nibble, bool* selectedAlgos, uint8_t* selectedInde
 	uint8_t algoDigit = (nibble & 0x0F) % algoCount;
 	if(!selectedAlgos[algoDigit]) {
 		selectedAlgos[algoDigit] = true;
+		selectedIndex[currentCount[0]] = algoDigit;
 		currentCount[0] = currentCount[0] + 1;
+
 		printf("%d-",algoDigit);
 	}
 	algoDigit = (nibble >> 4) % algoCount;
 	if(!selectedAlgos[algoDigit]) {
 		selectedAlgos[algoDigit] = true;
+		selectedIndex[currentCount[0]] = algoDigit;
 		currentCount[0] = currentCount[0] + 1;
 		printf("%d-",algoDigit);
 	}
@@ -220,7 +223,9 @@ void gr_hash(const char* input, char* output) {
 	void *in = (void*) input;
 	int size = 80;
 	uint8_t selectedAlgoOutput[15] = {0};
+	uint8_t selectedCNAlgoOutput[14] = {0};
 	to_hex(&input[4], test, 64, selectedAlgoOutput, 15);
+	to_hex(&input[4], test, 64, selectedCNAlgoOutput, 14);
 	//to_hex(&input[4], test, 64);
 	printf("previous hash=");
 	print_hex_memory(&input[4], 64);
@@ -260,8 +265,9 @@ void gr_hash(const char* input, char* output) {
 			algo = 16; // skip core hashing for this loop iteration
 		}
 		if(cnSelection >=0) {
-			const char cnElem = cnHashOrder[cnSelection];
-			cnAlgo = cnElem >= 'A' ? cnElem - 'A' + 10 : cnElem - '0';
+			cnAlgo = selectedCNAlgoOutput[(uint8_t)cnSelection];
+			//const char cnElem = cnHashOrder[cnSelection];
+			//cnAlgo = cnElem >= 'A' ? cnElem - 'A' + 10 : cnElem - '0';
 			//SwapBytes(in, size);
 		} else {
 			cnAlgo = 14; // skip cn hashing for this loop iteration
