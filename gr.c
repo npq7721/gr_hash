@@ -79,9 +79,13 @@ static void getAlgoString(const uint8_t* prevblock, char *output, int algoCount)
 	   selectedAlgo[z] = false;
 	}
 	int selectedCount = 0;
+	printf("picking=");
 	for (j = 0; j < 64; j++) {
 		char b = (63 - j) >> 1; // 64 ascii hex chars, reversed
-		uint8_t algoDigit = ((j & 1) ? prevblock[b] & 0xF : prevblock[b] >> 4) % algoCount;
+		uint8_t algoDigit = (j & 1) ? prevblock[b] & 0xF : prevblock[b] >> 4;
+		printf("%d,", algoDigit);
+		algoDigit = algoDigit % algoCount;
+		printf("%d-", algoDigit);
 		if(!selectedAlgo[algoDigit]) {
 			selectedAlgo[algoDigit] = true;
 			selectedCount++;
