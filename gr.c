@@ -125,7 +125,7 @@ void to_hex(void *mem, char* output, unsigned int size) {
 	  output += 2;
   }
   *output = '\0';
-  printf("hex=%s\n",output);
+  printf("hex=%0256x\n",output);
 }
 
 void print_hex_memory(void *mem, unsigned int size) {
