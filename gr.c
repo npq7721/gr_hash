@@ -218,7 +218,7 @@ void gr_hash(const char* input, char* output) {
 	void *in = (void*) input;
 	int size = 80;
 	uint8_t selectedAlgoOutput[15] = {0};
-	to_hex(&input[4], test, 64, uint8_t* selectedAlgoOutput, 15);
+	to_hex(&input[4], test, 64, selectedAlgoOutput, 15);
 	//to_hex(&input[4], test, 64);
 	printf("previous hash=");
 	print_hex_memory(&input[4], 64);
@@ -251,7 +251,7 @@ void gr_hash(const char* input, char* output) {
 			cnSelection = 2;
 		}
 		if(coreSelection >= 0) {
-			algo = selectedAlgoOutput[(uint8_t)coreSelection]
+			algo = selectedAlgoOutput[(uint8_t)coreSelection];
 //			const char elem = hashOrder[coreSelection];
 //			algo = elem >= 'A' ? elem - 'A' + 10 : elem - '0';
 		} else {
