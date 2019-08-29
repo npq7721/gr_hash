@@ -112,7 +112,20 @@ static void getAlgoString(const uint8_t* prevblock, char *output, int algoCount)
 			}
 		}
 	}
+	printf("\n")
 	*sptr = '\0';
+}
+
+void to_hex(void *mem, char* output, unsigned int size) {
+  int i;
+  unsigned char *p = (unsigned char *)mem;
+  unsigned int len = size/2;
+  for (i=0;i<len; i++) {
+	  sprintf(output, "%02x", p[(len - i - 1)]);
+	  output += 2;
+  }
+  *output = '\0';
+  printf("hex=%s\n",output);
 }
 
 void print_hex_memory(void *mem, unsigned int size) {
@@ -141,6 +154,7 @@ void gr_hash(const char* input, char* output) {
 	uint32_t hash[64/4];
 	char hashOrder[16] = { 0};
 	char cnHashOrder[15] = { 0};
+	char test[64] = {0};
 	FILE * fp;
 	fp = fopen ("hash.txt","w");
 	sph_blake512_context ctx_blake;
@@ -165,6 +179,7 @@ void gr_hash(const char* input, char* output) {
 
 	void *in = (void*) input;
 	int size = 80;
+	to_hex(&input[4], test, 64);
 	printf("previous hash=");
 	print_hex_memory(&input[4], 64);
 	getAlgoString(&input[4], hashOrder, 15);
