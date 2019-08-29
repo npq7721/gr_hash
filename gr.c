@@ -198,7 +198,7 @@ void gr_hash(const char* input, char* output) {
 		if(cnSelection >=0) {
 			const char cnElem = cnHashOrder[cnSelection];
 			cnAlgo = cnElem >= 'A' ? cnElem - 'A' + 10 : cnElem - '0';
-			SwapBytes(in, size);
+			//SwapBytes(in, size);
 		} else {
 			cnAlgo = 14; // skip cn hashing for this loop iteration
 		}
@@ -266,11 +266,6 @@ void gr_hash(const char* input, char* output) {
 				sph_groestl512(&ctx_groestl, in, size);
 				sph_groestl512_close(&ctx_groestl, hash);
 				break;
-		case SKEIN:
-				sph_skein512_init(&ctx_skein);
-				sph_skein512(&ctx_skein, in, size);
-				sph_skein512_close(&ctx_skein, hash);
-				break;
 		case JH:
 				sph_jh512_init(&ctx_jh);
 				sph_jh512(&ctx_jh, in, size);
@@ -280,6 +275,11 @@ void gr_hash(const char* input, char* output) {
 				sph_keccak512_init(&ctx_keccak);
 				sph_keccak512(&ctx_keccak, in, size);
 				sph_keccak512_close(&ctx_keccak, hash);
+				break;
+		case SKEIN:
+				sph_skein512_init(&ctx_skein);
+				sph_skein512(&ctx_skein, in, size);
+				sph_skein512_close(&ctx_skein, hash);
 				break;
 		case LUFFA:
 				sph_luffa512_init(&ctx_luffa);
