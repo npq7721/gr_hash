@@ -121,9 +121,9 @@ void to_hex(void *mem, char* output, unsigned int size) {
   unsigned char *p = (unsigned char *)mem;
   unsigned int len = size/2;
   printf("hex=");
-  unsigned char j = 0;
+  unsigned int j = 0;
   for (i=0;i<len; i++) {
-	  sprintf(output, "%02x", p[(len - i - 1)]);
+	  sprintf(output, "%02x", p[i]);
 	  printf("%c", output[j]);
 	  printf("%c", output[j+1]);
 	  j += 2;
