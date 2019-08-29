@@ -372,7 +372,8 @@ void gr_hash(const char* input, char* output) {
 				break;
 		}
 		if(cnSelection >= 0) {
-			memset(&hash[32], 0, 32);
+			//for (int j = 32; j < 64; ++j) ((uint8_t*)hash)[j] = 0;
+			memset(&hash[8], 0, 32);
 		}
 		in = (void*) hash;
 		print_hex_memory(in, size);
