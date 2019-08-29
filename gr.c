@@ -114,7 +114,7 @@ static void getAlgoString(const uint8_t* prevblock, char *output, int algoCount)
 void print_hex_memory(void *mem) {
   int i;
   unsigned char *p = (unsigned char *)mem;
-  for (i=0;i<64;i++) {
+  for (i=0;i<32;i++) {
     printf("%02x", p[i]);
   }
   printf("\n");
