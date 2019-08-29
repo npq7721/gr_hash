@@ -70,53 +70,7 @@ enum CNAlgo {
 	CN_HASH_FUNC_COUNT
 };
 
-static void getAlgoString(const uint8_t* prevblock, char *output, int algoCount)
-{
-	char *sptr = output;
-	int j;
-	bool selectedAlgo[algoCount];
-	for(int z=0; z < algoCount; z++) {
-	   selectedAlgo[z] = false;
-	}
-	int selectedCount = 0;
-	printf("picking=");
-	for (j = 0; j < 64; j++) {
-		char b = j >> 1; // 64 ascii hex chars, reversed
-		uint8_t algoDigit = (j & 1) ? prevblock[b] & 0xF : prevblock[b] >> 4;
-		printf("%d,", algoDigit);
-		algoDigit = algoDigit % algoCount;
-		printf("%d-", algoDigit);
-		if(!selectedAlgo[algoDigit]) {
-			selectedAlgo[algoDigit] = true;
-			selectedCount++;
-		} else {
-			continue;
-		}
-		if(selectedCount == algoCount) {
-			break;
-		}
-		if (algoDigit >= 10)
-			sprintf(sptr, "%c", 'A' + (algoDigit - 10));
-		else
-			sprintf(sptr, "%u", (uint32_t) algoDigit);
-		sptr++;
-	}
-	if(selectedCount < algoCount) {
-		for(uint8_t i = 0; i < algoCount; i++) {
-			if(!selectedAlgo[i]) {
-				if (i >= 10)
-					sprintf(sptr, "%c", 'A' + (i - 10));
-				else
-					sprintf(sptr, "%u", (uint32_t) i);
-				sptr++;
-			}
-		}
-	}
-	printf("\n");
-	*sptr = '\0';
-}
-
-void selectAlgo(unsigned char nibble, bool* selectedAlgos, uint8_t* selectedIndex, int algoCount, int* currentCount) {
+static void selectAlgo(unsigned char nibble, bool* selectedAlgos, uint8_t* selectedIndex, int algoCount, int* currentCount) {
 	uint8_t algoDigit = (nibble & 0x0F) % algoCount;
 	if(!selectedAlgos[algoDigit]) {
 		selectedAlgos[algoDigit] = true;
@@ -134,7 +88,7 @@ void selectAlgo(unsigned char nibble, bool* selectedAlgos, uint8_t* selectedInde
 	}
 }
 
-void to_hex(void *mem, char* output, unsigned int size, uint8_t* selectedAlgoOutput, int algoCount) {
+static void getAlgoString(void *mem, char* output, unsigned int size, uint8_t* selectedAlgoOutput, int algoCount) {
   int i;
   unsigned char *p = (unsigned char *)mem;
   unsigned int len = size/2;
@@ -225,13 +179,13 @@ void gr_hash(const char* input, char* output) {
 	int size = 80;
 	uint8_t selectedAlgoOutput[15] = {0};
 	uint8_t selectedCNAlgoOutput[14] = {0};
-	to_hex(&input[4], test, 64, selectedAlgoOutput, 15);
-	to_hex(&input[4], test, 64, selectedCNAlgoOutput, 14);
+	getAlgoString(&input[4], test, 64, selectedAlgoOutput, 15);
+	getAlgoString(&input[4], test, 64, selectedCNAlgoOutput, 14);
 	//to_hex(&input[4], test, 64);
 	printf("previous hash=");
 	print_hex_memory(&input[4], 64);
-	getAlgoString(&input[4], hashOrder, 15);
-	getAlgoString(&input[4], cnHashOrder, 14);
+	//getAlgoString(&input[4], hashOrder, 15);
+	//getAlgoString(&input[4], cnHashOrder, 14);
 	int i;
 	for (i = 0; i < 18; i++)
 	{
@@ -274,7 +228,7 @@ void gr_hash(const char* input, char* output) {
 			cnAlgo = 14; // skip cn hashing for this loop iteration
 		}
 		//selection cnAlgo. if a CN algo is selected then core algo will not be selected
-		printf("cnAlgo=%d,core algo=%d\n", cnAlgo, algo);
+		//printf("cnAlgo=%d,core algo=%d\n", cnAlgo, algo);
 		switch(cnAlgo)
 		{
 		 case CNDark:
@@ -338,42 +292,36 @@ void gr_hash(const char* input, char* output) {
 		switch (algo) {
 		case BLAKE:
 				printf("hashing Blake\n");
-				print_hex_memory(in, size);
 				sph_blake512_init(&ctx_blake);
 				sph_blake512(&ctx_blake, in, size);
 				sph_blake512_close(&ctx_blake, hash);
 				break;
 		case BMW:
 				printf("hashing BMW\n");
-				print_hex_memory(in, size);
 				sph_bmw512_init(&ctx_bmw);
 				sph_bmw512(&ctx_bmw, in, size);
 				sph_bmw512_close(&ctx_bmw, hash);
 				break;
 		case GROESTL:
 				printf("hashing GROESTL\n");
-				print_hex_memory(in, size);
 				sph_groestl512_init(&ctx_groestl);
 				sph_groestl512(&ctx_groestl, in, size);
 				sph_groestl512_close(&ctx_groestl, hash);
 				break;
 		case JH:
 				printf("hashing JH\n");
-				print_hex_memory(in, size);
 				sph_jh512_init(&ctx_jh);
 				sph_jh512(&ctx_jh, in, size);
 				sph_jh512_close(&ctx_jh, hash);
 				break;
 		case KECCAK:
 				printf("hashing KECCAK\n");
-				print_hex_memory(in, size);
 				sph_keccak512_init(&ctx_keccak);
 				sph_keccak512(&ctx_keccak, in, size);
 				sph_keccak512_close(&ctx_keccak, hash);
 				break;
 		case SKEIN:
 				printf("hashing SKEIN\n");
-				print_hex_memory(in, size);
 				sph_skein512_init(&ctx_skein);
 				sph_skein512(&ctx_skein, in, size);
 				sph_skein512_close(&ctx_skein, hash);
@@ -387,14 +335,12 @@ void gr_hash(const char* input, char* output) {
 				break;
 		case CUBEHASH:
 				printf("hashing CUBEHASH\n");
-				print_hex_memory(in, size);
 				sph_cubehash512_init(&ctx_cubehash);
 				sph_cubehash512(&ctx_cubehash, in, size);
 				sph_cubehash512_close(&ctx_cubehash, hash);
 				break;
 		case SHAVITE:
 			printf("hashing SHAVITE\n");
-			print_hex_memory(in, size);
 				sph_shavite512_init(&ctx_shavite);
 				sph_shavite512(&ctx_shavite, in, size);
 				sph_shavite512_close(&ctx_shavite, hash);
@@ -408,21 +354,18 @@ void gr_hash(const char* input, char* output) {
 				break;
 		case ECHO:
 			printf("hashing ECHO\n");
-			print_hex_memory(in, size);
 				sph_echo512_init(&ctx_echo);
 				sph_echo512(&ctx_echo, in, size);
 				sph_echo512_close(&ctx_echo, hash);
 				break;
 		case HAMSI:
 			printf("hashing HAMSI\n");
-			print_hex_memory(in, size);
 				sph_hamsi512_init(&ctx_hamsi);
 				sph_hamsi512(&ctx_hamsi, in, size);
 				sph_hamsi512_close(&ctx_hamsi, hash);
 				break;
 		case FUGUE:
 			printf("hashing FUGUE\n");
-			print_hex_memory(in, size);
 				sph_fugue512_init(&ctx_fugue);
 				sph_fugue512(&ctx_fugue, in, size);
 				sph_fugue512_close(&ctx_fugue, hash);
@@ -436,7 +379,6 @@ void gr_hash(const char* input, char* output) {
 				break;
 		case WHIRLPOOL:
 			printf("hashing WHIRLPOOL\n");
-			print_hex_memory(in, size);
 				sph_whirlpool_init(&ctx_whirlpool);
 				sph_whirlpool(&ctx_whirlpool, in, size);
 				sph_whirlpool_close(&ctx_whirlpool, hash);
@@ -447,7 +389,7 @@ void gr_hash(const char* input, char* output) {
 			memset(&hash[8], 0, 32);
 		}
 		in = (void*) hash;
-		print_hex_memory(in, size);
+		//print_hex_memory(in, size);
 		size = 64;
 	}
 	fclose (fp);
