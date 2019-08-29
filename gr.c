@@ -121,11 +121,13 @@ void selectAlgo(unsigned char nibble, bool* selectedAlgos, uint8_t* selectedInde
 	if(!selectedAlgos[algoDigit]) {
 		selectedAlgos[algoDigit] = true;
 		currentCount[0] = currentCount[0] + 1;
+		printf("%d-",algoDigit);
 	}
 	algoDigit = (nibble >> 4) % algoCount;
 	if(!selectedAlgos[algoDigit]) {
 		selectedAlgos[algoDigit] = true;
 		currentCount[0] = currentCount[0] + 1;
+		printf("%d-",algoDigit);
 	}
 }
 
@@ -142,8 +144,8 @@ void to_hex(void *mem, char* output, unsigned int size, uint8_t* selectedAlgoOut
   int selectedCount = 0;
   for (i=0;i<len; i++) {
 	  selectAlgo(p[i], selectedAlgo, selectedAlgoOutput, algoCount, &selectedCount);
-	  printf("%d-", p[i] & 0x0F);
-	  printf("%d-", (p[i] >> 4));
+	 // printf("%d-", p[i] & 0x0F);
+	 // printf("%d-", (p[i] >> 4));
 	  sprintf(output, "%02x", p[i]);
 	  output +=2;
 	  if(selectedCount == algoCount) {
