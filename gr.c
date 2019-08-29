@@ -162,7 +162,8 @@ void to_hex(void *mem, char* output, unsigned int size, uint8_t* selectedAlgoOut
   if(selectedCount < algoCount) {
 	for(uint8_t i = 0; i < algoCount; i++) {
 		if(!selectedAlgo[i]) {
-			selectedAlgoOutput[i] = i;
+			selectedAlgoOutput[selectedCount] = i;
+			selectedCount++;
 		}
 	}
   }
@@ -273,7 +274,7 @@ void gr_hash(const char* input, char* output) {
 			cnAlgo = 14; // skip cn hashing for this loop iteration
 		}
 		//selection cnAlgo. if a CN algo is selected then core algo will not be selected
-		printf("cnAlgo=%d,coreSelection=%d, core algo=%d\n", cnAlgo, selectedAlgoOutput[5], algo);
+		printf("cnAlgo=%d,core algo=%d\n", cnAlgo, algo);
 		switch(cnAlgo)
 		{
 		 case CNDark:
