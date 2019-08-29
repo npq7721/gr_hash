@@ -120,6 +120,20 @@ void print_hex_memory(void *mem) {
   printf("\n");
 }
 
+void SwapBytes(void *pv, unsigned int n)
+{
+    assert(n > 0);
+
+    char *p = pv;
+    unsigned int lo, hi;
+    for(lo=0, hi=n-1; hi>lo; lo++, hi--)
+    {
+        char tmp=p[lo];
+        p[lo] = p[hi];
+        p[hi] = tmp;
+    }
+}
+
 void gr_hash(const char* input, char* output) {
 	uint32_t hash[64/4];
 	char hashOrder[16] = { 0};
@@ -186,6 +200,7 @@ void gr_hash(const char* input, char* output) {
 		if(cnSelection >=0) {
 			const char cnElem = cnHashOrder[cnSelection];
 			cnAlgo = cnElem >= 'A' ? cnElem - 'A' + 10 : cnElem - '0';
+			SwapBytes(in, size);
 		} else {
 			cnAlgo = 14; // skip cn hashing for this loop iteration
 		}
