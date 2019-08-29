@@ -122,8 +122,6 @@ void print_hex_memory(void *mem) {
 
 void SwapBytes(void *pv, unsigned int n)
 {
-    assert(n > 0);
-
     char *p = pv;
     unsigned int lo, hi;
     for(lo=0, hi=n-1; hi>lo; lo++, hi--)
