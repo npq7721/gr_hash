@@ -61,6 +61,21 @@ enum CNAlgo {
 	CN_HASH_FUNC_COUNT
 };
 
+static void selectAlgo(unsigned char nibble, bool* selectedAlgos, uint8_t* selectedIndex, int algoCount, int* currentCount) {
+	uint8_t algoDigit = (nibble & 0x0F) % algoCount;
+	if(!selectedAlgos[algoDigit]) {
+		selectedAlgos[algoDigit] = true;
+		selectedIndex[currentCount[0]] = algoDigit;
+		currentCount[0] = currentCount[0] + 1;
+	}
+	algoDigit = (nibble >> 4) % algoCount;
+	if(!selectedAlgos[algoDigit]) {
+		selectedAlgos[algoDigit] = true;
+		selectedIndex[currentCount[0]] = algoDigit;
+		currentCount[0] = currentCount[0] + 1;
+	}
+}
+
 static void getAlgoString(void *mem, unsigned int size, uint8_t* selectedAlgoOutput, int algoCount) {
   int i;
   unsigned char *p = (unsigned char *)mem;
